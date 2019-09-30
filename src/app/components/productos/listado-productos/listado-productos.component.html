@@ -1,0 +1,141 @@
+<div class="mt-3 animated fadeIn">
+
+    <h2 class="text-uppercase text-center mb-3">
+        Listado de productos
+        <small class="d-block text-muted">El listado cuenta con {{productos.length}} producto(s)</small></h2>
+    <br>
+    <div class="alert alert-info mb-3 text-center" role="alert" *ngIf="productos.length <= 0">
+        <strong>No hay productos disponibles</strong>
+    </div>
+
+    <div class="card-group">
+        <div class="card mr-1" *ngFor="let producto of productos">
+            <a (click)="viewImagen(producto.imagen)">
+                <img class="card-img-top" src="{{producto.miniatura}}">
+            </a>
+            <div class="card-body">
+                <h5 class="card-title">{{producto.categoria | titlecase}}</h5>
+                <h5 class="card-title">{{producto.descripcion | titlecase}}</h5>
+                <p class="card-subtitle">Precio {{producto.precio | currency: 'USD'}}</p>
+                <p class="card-text">Cantidad disponible: {{producto.cantidadDisponible}}</p>
+                <button type="button" href="#" class="btn btn-primary" (click)="modalPedido(producto)" [disabled]="producto.cantidadDisponible == 0">Comprar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Imagen-->
+<div class="modal fade" id="modalImagen" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true" *ngIf="imagen">
+    <div class="modal-dialog modal modal-dialog-centered" role="document">
+        <div class="modal-content ">
+            <div class="modal-body text-center">
+                <img src="{{imagen}}" width="100%" height="100%" frameborder="0">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalPedido" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Realizar pedido</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="forma.resetForm()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <form #forma="ngForm" novalidate (ngSubmit)="realizarPedido(forma,archivo)">
+                <div class="modal-body">
+                    <div class="alert alert-info" role="alert">
+                        Todos los campos son obligatorios.
+                    </div>
+                    <div class="form-row">
+                        <div class="col-6 col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre" name="nombre" [(ngModel)]="pedido.nombreCliente" #nombre="ngModel" required [ngClass]="{'is-invalid': nombre.errors?.required && (nombre.touched || forma.submitted)}">
+
+                                <div class="invalid-feedback">Escríba su nombre</div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label>Fecha de nacimiento</label>
+                                <div class="ui-g ui-fluid">
+                                    <div class="ui-g-12 ui-md-12 p-0">
+                                        <p-calendar inputStyleClass="form-control {{isValid}}" name="fecha_nacimiento" [(ngModel)]="pedido.fechaNacimiento" dateFormat="dd/mm/yy" [readonlyInput]="true" required (onBlur)='validation(fecha_nacimiento)' (onSelect)='validation(fecha_nacimiento)'
+                                            #fecha_nacimiento="ngModel" [locale]="es" [readonlyInput]="true"></p-calendar>
+
+                                    </div>
+                                </div>
+                                <div class="invalid-feedback " [ngClass]="{'d-block': fecha_nacimiento.errors?.required && (fecha_nacimiento.touched || forma.submitted)}">Seleccione una fecha</div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-6 col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="direccion">Dirección de envío</label>
+                                <input type="text" class="form-control" id="direccion" placeholder="Ingrese su direccion" name="direccion" [(ngModel)]="pedido.direccion" #direccion="ngModel" required [ngClass]="{'is-invalid': direccion.errors?.required && (direccion.touched || forma.submitted)}">
+
+                                <div class="invalid-feedback">Escríba su dirección de envío</div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-sm-12 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="ciudad">Ciudad</label>
+                                <ng-select [ngClass]="{'is-invalid ': ((forma.submitted || ciudad.touched) && ciudad.errors?.required) }" type="number" placeholder="Ingrese el número de cupos para este día" name="valor" id="valor" [items]="ciudades" id="ciudad" bindLabel="nombreCiudad"
+                                    bindValue="id" placeholder="Seleccione la hora de inicio" name="ciudad" #ciudad="ngModel" [(ngModel)]="pedido.idCiudad" [closeOnSelect]="true" [hideSelected]="true" required>
+                                </ng-select>
+                                <div class="invalid-feedback">Seleccione una de las opciones</div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-sm-12 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label for="cantidad">Cantidad</label>
+                                <input class="form-control " [ngClass]="{'is-invalid ': (cantidad.errors?.required || cantidad.errors?.min || cantidad.errors?.max) && (cantidad.touched ||forma.submitted) }" type="number" placeholder="Ingrese el número de productos a comprar" name="cantidad"
+                                    id="cantidad" [(ngModel)]="pedido.cantidad" [min]="1" [max]="producto.cantidadDisponible" required #cantidad="ngModel">
+                                <div class="invalid-feedback" *ngIf="cantidad.errors?.min">
+                                    Números mayores o iguales a 1
+                                </div>
+                                <div class="invalid-feedback" *ngIf="cantidad.errors?.max">
+                                    Números menores o iguales a {{producto.cantidadDisponible}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-12 col-md-12 col-xl-12">
+                            <div class="form-group">
+                                <label for="archivo">Cedula</label>
+                                <p-fileUpload id="archivo" name="archivo[]" (onSelect)="onUploadFile($event)" maxFileSize="1000000" [showUploadButton]="false" [showCancelButton]="false" accept="application/pdf" invalidFileSizeMessageDetail="El tamaño máximo del archivo es: {0}" invalidFileSizeMessageSummary="{0}: Tamaño del archivo excedido,"
+                                    invalidFileTypeMessageSummary="{0}: Tipo de archivo inválido," invalidFileTypeMessageDetail="Solo puedes cargar archivos de tipo {0}" chooseLabel="Cargar documento" (onRemove)="onClearFile()" #archivo>
+                                </p-fileUpload>
+                                <div class="invalid-feedback " [ngClass]="{'d-block': !pedido.archivo  && forma.submitted }">Debe cargar un archivo de archivo</div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-12" *ngIf="pedido.cantidad > 0">
+                            <label>Valor del pedido: <span>{{producto.precio * pedido.cantidad | currency: 'USD'}}</span></label>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal" (click)="forma.resetForm()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                            Comprar
+                          </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

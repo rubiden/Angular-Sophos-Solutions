@@ -1,0 +1,74 @@
+<br>
+<h2 class="text-uppercase text-center" text-center>Listado de pedidos<small class="btn-block text-muted">El listado cuenta con {{pedidos.length}} pedido(s)</small></h2>
+<hr>
+
+<div class="row">
+
+    <div class="col-12">
+
+        <div class="text-center">
+
+            <button id="btn-filtros" class="btn btn-outline-dark mb-3 mr-1" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                            <span class="fa fa-filter" aria-hidden="true"></span> Filtrar registros
+                        </button>
+
+        </div>
+
+        <div class="collapse mb-3 mb-3" id="collapseFilter">
+            <div class="card card-body px-3 pt-3">
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div id="filter-idPedido" class="form-group">
+                            <label>Filtrar por idPedido</label>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div id="filter-ciudad" class="form-group">
+                            <label>Filtrar por ciudad</label>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div id="filter-producto" class="form-group">
+                            <label>Filtrar por producto</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-wrap justify-content-center mb-3" *ngIf="appliedFilters.length > 0"><button *ngFor="let filter of appliedFilters" class="btn btn-default btn-sm mb-1 m-1" (click)="funciones.removeFilter(this, filter)">{{filter.name}}<span class="fa fa-times" aria-hidden="true"></span></button> </div>
+
+
+        <div class="table-responsive">
+            <table datatable [dtOptions]="dtOptions" class="table row-border hover">
+                <thead>
+                    <tr>
+                        <th>IDPedido</th>
+                        <th>Nombre comprador</th>
+                        <th>Fecha de nacimiento</th>
+                        <th>Dirección</th>
+                        <th>Ciudad</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Archivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pedido of pedidos; let i=index">
+                        <td attr.data-order="{{pedido.idPedido}}">{{pedido.idPedido}}</td>
+                        <td>{{pedido.nombreCliente}}</td>
+                        <td>{{pedido.fechaNacimiento | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{pedido.direccion}}</td>
+                        <td>{{pedido.nombreCiudad}}</td>
+                        <td>{{pedido.nombreProducto}}</td>
+                        <td>{{pedido.cantidad}}</td>
+                        <td>{{pedido.archivo}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <br>
+    </div>
+</div>
