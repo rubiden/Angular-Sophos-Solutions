@@ -1,27 +1,15 @@
-# PruebaSophos
+# Prueba de angula para Sophos Solution
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.3.
+Este proyecto fue generado con [Angular CLI](https://github.com/angular/angular-cli) version 8.3.3.
 
-## Development server
+# Pre-requisitos
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+1) Se debe tebe tener instalado el NodeJS, la última versión de Node.js se puede descargar e instalar desde el sitio web oficial https://nodejs.org
 
-## Code scaffolding
+2) Instalar los node_modules con el siguiente comando npm install desde la carpeta raiz del proyecto, a través de una ventana de comando.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+3) Es posible que necesite instalar en Angular CLI, de ser necesario ejecute el comando npm install -g @ angular/cli, a través de una ventana de comando desde la carpeta raiz.
 
-## Build
+## Servidor de desarrollo
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Ejecute el comando ng serve -o, desde la ventana de comando ubicado en la carpeta raiz del proyecto. Automaticamente el programa se ejecutara y lanzará una ventana del navegador con la aplicación funcionando.
