@@ -8,7 +8,7 @@ Este proyecto fue generado con [Angular CLI](https://github.com/angular/angular-
 
 2) Instalar los node_modules con el siguiente comando npm install desde la carpeta raiz del proyecto, a través de una ventana de comando.
 
-3) Es posible que necesite instalar en Angular CLI, de ser necesario ejecute el comando npm install -g @ angular/cli, a través de una ventana de comando desde la carpeta raiz.
+3) Es posible que necesite instalar en Angular CLI, de ser necesario ejecute el comando npm install -g @angular/cli, a través de una ventana de comando desde la carpeta raiz.
 
 ## Servidor de desarrollo
 
