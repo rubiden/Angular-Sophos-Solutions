@@ -14,7 +14,7 @@ import { Subject } from 'rxjs';
 export class ListadoPedidosComponent implements OnInit {
 
 
-  @ViewChild(DataTableDirective)
+  @ViewChild(DataTableDirective, null)
   dtElement: DataTableDirective;
   dtOptions: any = DTConfig.dtConf;
   dtTrigger: Subject<string> = new Subject();
