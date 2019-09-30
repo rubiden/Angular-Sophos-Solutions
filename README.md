@@ -1,4 +1,4 @@
-# Prueba de angula para Sophos Solution
+# Prueba de angula para Sophos Solutions
 
 Este proyecto fue generado con [Angular CLI](https://github.com/angular/angular-cli) version 8.3.3.
 
